@@ -1,0 +1,58 @@
+<div class="dashboard">
+  <h1>File Generator Dashboard</h1>
+  <div class="card-list">
+    <div class="card" (click)="selectFormat('json')">
+      <h2>JSON</h2>
+      <p>Generate and download JSON files</p>
+    </div>
+    <div class="card" (click)="selectFormat('xml')">
+      <h2>XML</h2>
+      <p>Generate and download XML files</p>
+    </div>
+    <div class="card" (click)="selectFormat('config')">
+      <h2>Config</h2>
+      <p>Generate and download .config files</p>
+    </div>
+    <div class="card" (click)="selectFormat('config2')">
+      <h2>Config 2</h2>
+      <p>Generate and download service config files</p>
+    </div>
+    <div class="card" (click)="selectFormat('other')">
+      <h2>Other</h2>
+      <p>Generate and download other formats</p>
+    </div>
+  </div>
+</div>
+
+<style>
+.dashboard {
+  max-width: 600px;
+  margin: 3em auto;
+  text-align: center;
+}
+.card-list {
+  display: flex;
+  gap: 2em;
+  justify-content: center;
+  margin-top: 2em;
+}
+.card {
+  background: #f9f9f9;
+  border-radius: 10px;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.07);
+  padding: 2em 1.5em;
+  cursor: pointer;
+  transition: box-shadow 0.2s, transform 0.2s;
+  min-width: 120px;
+  flex: 1 1 0;
+}
+.card:hover {
+  box-shadow: 0 4px 24px rgba(25,118,210,0.18);
+  transform: translateY(-4px) scale(1.03);
+  background: #e3f2fd;
+}
+.card h2 {
+  color: #1976d2;
+  margin-bottom: 0.5em;
+}
+</style>

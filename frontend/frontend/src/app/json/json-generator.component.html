@@ -1,0 +1,43 @@
+<form #jsonForm="ngForm" (ngSubmit)="generateJSON()" novalidate>
+  <label>
+    Username:
+    <input name="username" [(ngModel)]="formData.username" required minlength="2" maxlength="30" #username="ngModel" />
+    <span class="error" *ngIf="username.invalid && (username.dirty || username.touched)">
+      <span *ngIf="username.errors?.['required']">Username is required.</span>
+      <span *ngIf="username.errors?.['minlength']">Username must be at least 2 characters.</span>
+      <span *ngIf="username.errors?.['maxlength']">Username must be at most 30 characters.</span>
+    </span>
+  </label>
+  <br />
+  <label>
+    Age:
+    <input name="age" type="number" [(ngModel)]="formData.age" required min="1" max="120" #age="ngModel" />
+    <span class="error" *ngIf="age.invalid && (age.dirty || age.touched)">
+      <span *ngIf="age.errors?.['required']">Age is required.</span>
+      <span *ngIf="age.errors?.['min']">Age must be at least 1.</span>
+      <span *ngIf="age.errors?.['max']">Age must be at most 120.</span>
+    </span>
+  </label>
+  <br />
+  <label>
+    Email:
+    <input name="email" type="email" [(ngModel)]="formData.email" required email #email="ngModel" />
+    <span class="error" *ngIf="email.invalid && (email.dirty || email.touched)">
+      <span *ngIf="email.errors?.['required']">Email is required.</span>
+      <span *ngIf="email.errors?.['email']">Enter a valid email address.</span>
+    </span>
+  </label>
+  <br />
+  <button type="submit" [disabled]="jsonForm.invalid">Generate JSON</button>
+</form>
+<dialog id="jsonModal" style="border:none;border-radius:10px;box-shadow:0 4px 24px rgba(0,0,0,0.18);padding:2em;min-width:350px;max-width:90vw;">
+  <h3 style="margin-top:0;color:#1976d2;">Generated JSON</h3>
+  <pre *ngIf="!editMode" class="json-output">{{ jsonOutput }}</pre>
+  <textarea *ngIf="editMode" [(ngModel)]="jsonOutput" rows="8" style="width:100%;font-family:monospace;"></textarea>
+  <div style="display:flex;gap:0.5em;justify-content:flex-end;margin-top:1.5em;">
+    <button *ngIf="!editMode" (click)="editMode = true" class="btn edit">Edit</button>
+    <button *ngIf="editMode" (click)="editMode = false" class="btn done">Done</button>
+    <button (click)="downloadJSON()" [disabled]="editMode" class="btn download">Download</button>
+    <button (click)="closeModal()" class="btn close">Close</button>
+  </div>
+</dialog>

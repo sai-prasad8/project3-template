@@ -1,0 +1,147 @@
+<h1>JSON Generator</h1>
+<form #jsonForm="ngForm" (ngSubmit)="generateJSON()" novalidate>
+  <label>
+    Name:
+    <input name="name" [(ngModel)]="formData.name" required minlength="2" maxlength="30" #name="ngModel" />
+    <span class="error" *ngIf="name.invalid && (name.dirty || name.touched)">
+      <span *ngIf="name.errors?.['required']">Name is required.</span>
+      <span *ngIf="name.errors?.['minlength']">Name must be at least 2 characters.</span>
+      <span *ngIf="name.errors?.['maxlength']">Name must be at most 30 characters.</span>
+    </span>
+  </label>
+  <br />
+  <label>
+    Age:
+    <input name="age" type="number" [(ngModel)]="formData.age" required min="1" max="120" #age="ngModel" />
+    <span class="error" *ngIf="age.invalid && (age.dirty || age.touched)">
+      <span *ngIf="age.errors?.['required']">Age is required.</span>
+      <span *ngIf="age.errors?.['min']">Age must be at least 1.</span>
+      <span *ngIf="age.errors?.['max']">Age must be at most 120.</span>
+    </span>
+  </label>
+  <br />
+  <label>
+    Email:
+    <input name="email" type="email" [(ngModel)]="formData.email" required email #email="ngModel" />
+    <span class="error" *ngIf="email.invalid && (email.dirty || email.touched)">
+      <span *ngIf="email.errors?.['required']">Email is required.</span>
+      <span *ngIf="email.errors?.['email']">Enter a valid email address.</span>
+    </span>
+  </label>
+  <br />
+  <button type="submit" [disabled]="jsonForm.invalid">Generate JSON</button>
+</form>
+<div *ngIf="jsonOutput">
+  <h3>Generated JSON:</h3>
+  <pre *ngIf="!editMode">{{ jsonOutput }}</pre>
+  <textarea *ngIf="editMode" [(ngModel)]="jsonOutput" rows="8" style="width:100%;font-family:monospace;"></textarea>
+  <div style="margin-top:1em;">
+    <button *ngIf="!editMode" (click)="editMode = true">Edit JSON</button>
+    <button *ngIf="editMode" (click)="editMode = false">Done Editing</button>
+    <button (click)="downloadJSON()" [disabled]="editMode">Download JSON</button>
+  </div>
+</div>
+<dialog id="jsonModal" style="border:none;border-radius:10px;box-shadow:0 4px 24px rgba(0,0,0,0.18);padding:2em;min-width:350px;max-width:90vw;">
+  <h3 style="margin-top:0;color:#1976d2;">Generated JSON</h3>
+  <pre *ngIf="!editMode" style="background:#f5f5f5;padding:1em;border-radius:4px;max-height:300px;overflow:auto;">{{ jsonOutput }}</pre>
+  <textarea *ngIf="editMode" [(ngModel)]="jsonOutput" rows="8" style="width:100%;font-family:monospace;"></textarea>
+  <div style="display:flex;gap:0.5em;justify-content:flex-end;margin-top:1.5em;">
+    <button *ngIf="!editMode" (click)="editMode = true" class="btn edit">Edit</button>
+    <button *ngIf="editMode" (click)="editMode = false" class="btn done">Done</button>
+    <button (click)="downloadJSON()" [disabled]="editMode" class="btn download">Download</button>
+    <button (click)="closeModal()" class="btn close">Close</button>
+  </div>
+</dialog>
+<style>
+  form {
+    max-width: 400px;
+    margin: 2em auto;
+    padding: 2em;
+    background: #f9f9f9;
+    border-radius: 8px;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.07);
+  }
+  label {
+    display: block;
+    margin: 1em 0 0.5em 0;
+    font-weight: 500;
+  }
+  input {
+    width: 100%;
+    padding: 0.5em;
+    margin-top: 0.2em;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    font-size: 1em;
+    box-sizing: border-box;
+    transition: border 0.2s;
+  }
+  input:invalid.ng-touched {
+    border-color: #e57373;
+  }
+  .error {
+    color: #e53935;
+    font-size: 0.9em;
+    margin-left: 0.2em;
+    display: block;
+  }
+  button[type="submit"] {
+    background: #1976d2;
+    color: #fff;
+    border: none;
+    padding: 0.7em 1.5em;
+    border-radius: 4px;
+    font-size: 1em;
+    cursor: pointer;
+    margin-top: 1em;
+    transition: background 0.2s;
+  }
+  button[type="submit"]:disabled {
+    background: #b0bec5;
+    cursor: not-allowed;
+  }
+  pre {
+    background: #f5f5f5;
+    padding: 1em;
+    border-radius: 4px;
+    font-size: 1em;
+    overflow-x: auto;
+  }
+  h1 {
+    text-align: center;
+    color: #1976d2;
+    margin-bottom: 1em;
+  }
+  h3 {
+    color: #333;
+    margin-top: 2em;
+  }
+  div[ngif] {
+    margin-top: 2em;
+    text-align: center;
+  }
+  .btn {
+    background: #1976d2;
+    color: #fff;
+    border: none;
+    padding: 0.5em 1.2em;
+    border-radius: 4px;
+    font-size: 1em;
+    cursor: pointer;
+    transition: background 0.2s;
+    font-weight: 500;
+    box-shadow: 0 1px 4px rgba(25,118,210,0.08);
+  }
+  .btn.edit { background: #43a047; }
+  .btn.done { background: #0288d1; }
+  .btn.download { background: #fbc02d; color: #222; }
+  .btn.close { background: #e53935; }
+  .btn:disabled { background: #b0bec5; color: #fff; cursor: not-allowed; }
+  dialog[open] {
+    animation: fadeIn 0.2s;
+  }
+  @keyframes fadeIn {
+    from { opacity: 0; transform: scale(0.98); }
+    to { opacity: 1; transform: scale(1); }
+  }
+</style>

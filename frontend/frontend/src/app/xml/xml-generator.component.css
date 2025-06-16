@@ -1,0 +1,61 @@
+/* Template for XML output styling and form validation */
+.xml-output {
+  background: #23272e;
+  color: #ffe3b3;
+  padding: 1em;
+  border-radius: 6px;
+  font-family: 'Fira Mono', 'Consolas', 'Menlo', monospace;
+  font-size: 1em;
+  line-height: 1.5;
+  overflow-x: auto;
+  margin: 1em 0;
+  box-shadow: 0 2px 8px rgba(255,193,7,0.08);
+}
+form {
+  max-width: 400px;
+  margin: 2em auto;
+  padding: 2em;
+  background: #f9f9f9;
+  border-radius: 8px;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.07);
+}
+label {
+  display: block;
+  margin: 1em 0 0.5em 0;
+  font-weight: 500;
+}
+input {
+  width: 100%;
+  padding: 0.5em;
+  margin-top: 0.2em;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  font-size: 1em;
+  box-sizing: border-box;
+  transition: border 0.2s;
+}
+input:invalid.ng-touched {
+  border-color: #e57373;
+}
+.error {
+  color: #e53935;
+  font-size: 0.9em;
+  margin-left: 0.2em;
+  display: block;
+}
+button[type="submit"] {
+  background: #fbc02d;
+  color: #222;
+  border: none;
+  padding: 0.7em 1.5em;
+  border-radius: 4px;
+  font-size: 1em;
+  cursor: pointer;
+  margin-top: 1em;
+  transition: background 0.2s;
+}
+button[type="submit"]:disabled {
+  background: #b0bec5;
+  color: #fff;
+  cursor: not-allowed;
+}

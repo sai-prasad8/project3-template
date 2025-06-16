@@ -1,0 +1,194 @@
+<form #configForm="ngForm" (ngSubmit)="generateConfig()" novalidate>
+  <label>App ID (fixed):
+    <input name="appId" [value]="formData.appId" readonly />
+    <span class="help" (click)="showHelp('appId')">?</span>
+    <span class="help-text" *ngIf="helpField === 'appId'">Unique application identifier. Cannot be changed.</span>
+  </label>
+  <label>App Name*:
+    <input name="appName" [(ngModel)]="formData.appName" required #appName="ngModel" />
+    <span class="help" (click)="showHelp('appName')">?</span>
+    <span class="help-text" *ngIf="helpField === 'appName'">The name of your application. Required.</span>
+    <span class="error" *ngIf="appName.invalid && (appName.dirty || appName.touched)">Required</span>
+  </label>
+  <label>Version:
+    <input name="version" [(ngModel)]="formData.version" />
+    <span class="help" (click)="showHelp('version')">?</span>
+    <span class="help-text" *ngIf="helpField === 'version'">Version of the application. Default is 1.0.0.</span>
+  </label>
+  <label>Debug:
+    <input name="debug" type="checkbox" [(ngModel)]="formData.debug" />
+    <span class="help" (click)="showHelp('debug')">?</span>
+    <span class="help-text" *ngIf="helpField === 'debug'">Enable or disable debug mode.</span>
+  </label>
+  <label>Max Users*:
+    <input name="maxUsers" type="number" [(ngModel)]="formData.maxUsers" required #maxUsers="ngModel" />
+    <span class="help" (click)="showHelp('maxUsers')">?</span>
+    <span class="help-text" *ngIf="helpField === 'maxUsers'">Maximum number of users allowed. Required.</span>
+    <span class="
+    
+    
+    " *ngIf="maxUsers.invalid && (maxUsers.dirty || maxUsers.touched)">Required</span>
+  </label>
+  <label>Timeout:
+    <input name="timeout" type="number" [(ngModel)]="formData.timeout" />
+    <span class="help" (click)="showHelp('timeout')">?</span>
+    <span class="help-text" *ngIf="helpField === 'timeout'">Timeout in seconds for operations. Default is 30.</span>
+  </label>
+  <label>API URL*:
+    <input name="apiUrl" [(ngModel)]="formData.apiUrl" required #apiUrl="ngModel" />
+    <span class="help" (click)="showHelp('apiUrl')">?</span>
+    <span class="help-text" *ngIf="helpField === 'apiUrl'">Base URL for API requests. Required.</span>
+    <span class="error" *ngIf="apiUrl.invalid && (apiUrl.dirty || apiUrl.touched)">Required</span>
+  </label>
+  <label>Log Level:
+    <select name="logLevel" [(ngModel)]="formData.logLevel">
+      <option value="info">info</option>
+      <option value="warn">warn</option>
+      <option value="error">error</option>
+      <option value="debug">debug</option>
+    </select>
+    <span class="help" (click)="showHelp('logLevel')">?</span>
+    <span class="help-text" *ngIf="helpField === 'logLevel'">Level of logging detail.</span>
+  </label>
+  <label>Region:
+    <input name="region" [(ngModel)]="formData.region" />
+    <span class="help" (click)="showHelp('region')">?</span>
+    <span class="help-text" *ngIf="helpField === 'region'">Deployment region (e.g., US, EU, APAC).</span>
+  </label>
+  <label>Enable Cache:
+    <input name="enableCache" type="checkbox" [(ngModel)]="formData.enableCache" />
+    <span class="help" (click)="showHelp('enableCache')">?</span>
+    <span class="help-text" *ngIf="helpField === 'enableCache'">Enable or disable caching.</span>
+  </label>
+  <label>Created By (fixed):
+    <input name="createdBy" [value]="formData.createdBy" readonly />
+    <span class="help" (click)="showHelp('createdBy')">?</span>
+    <span class="help-text" *ngIf="helpField === 'createdBy'">Creator of this config. Cannot be changed.</span>
+  </label>
+  <label>Created At (fixed):
+    <input name="createdAt" [value]="formData.createdAt" readonly />
+    <span class="help" (click)="showHelp('createdAt')">?</span>
+    <span class="help-text" *ngIf="helpField === 'createdAt'">Date and time when config was created.</span>
+  </label>
+  <label>Description:
+    <textarea name="description" [(ngModel)]="formData.description"></textarea>
+    <span class="help" (click)="showHelp('description')">?</span>
+    <span class="help-text" *ngIf="helpField === 'description'">Short description of the application.</span>
+  </label>
+  <label>Retry Attempts:
+    <input name="retryAttempts" type="number" [(ngModel)]="formData.retryAttempts" />
+    <span class="help" (click)="showHelp('retryAttempts')">?</span>
+    <span class="help-text" *ngIf="helpField === 'retryAttempts'">Number of retry attempts for failed operations.</span>
+  </label>
+  <label>Features (comma separated):
+    <input name="features" [(ngModel)]="formData.features" />
+    <span class="help" (click)="showHelp('features')">?</span>
+    <span class="help-text" *ngIf="helpField === 'features'">Comma separated list of enabled features.</span>
+  </label>
+  <label>Upload File*:
+    <input name="uploadFile" type="file" (change)="onFileSelected($event)" required #uploadFileInput="ngModel" ngModel />
+    <span class="help" (click)="showHelp('uploadFile')">?</span>
+    <span class="help-text" *ngIf="helpField === 'uploadFile'">Upload a related file (e.g., license, cert). Required.</span>
+    <span class="error" *ngIf="!formData.uploadFile && (uploadFileInput.dirty || uploadFileInput.touched)">File is required</span>
+  </label>
+  <label>Select Date*:
+    <input name="selectedDate" type="date" [(ngModel)]="formData.selectedDate" required #selectedDate="ngModel" />
+    <span class="help" (click)="showHelp('selectedDate')">?</span>
+    <span class="help-text" *ngIf="helpField === 'selectedDate'">Choose a date for config activation. Required.</span>
+    <span class="error" *ngIf="selectedDate.invalid && (selectedDate.dirty || selectedDate.touched)">Date is required</span>
+  </label>
+  <label>Age*:
+    <input name="age" type="number" [(ngModel)]="formData.age" (ngModelChange)="onAgeInput()" required #age="ngModel" min="1" />
+    <span class="help" (click)="showHelp('age')">?</span>
+    <span class="help-text" *ngIf="helpField === 'age'">Enter your age. Determines which fields are shown below.</span>
+    <span class="error" *ngIf="age.invalid && (age.dirty || age.touched)">Valid age is required</span>
+  </label>
+  <ng-container *ngIf="formData.age">
+    <label *ngIf="showBday">Birthday*:
+      <input name="bday" type="date" [(ngModel)]="formData.bday" required #bday="ngModel" />
+      <span class="help" (click)="showHelp('bday')">?</span>
+      <span class="help-text" *ngIf="helpField === 'bday'">Enter your date of birth.</span>
+      <span class="error" *ngIf="bday.invalid && (bday.dirty || bday.touched)">Birthday is required</span>
+    </label>
+    <label *ngIf="showHaveLicense">Have License:
+      <input name="haveLicense" type="checkbox" [(ngModel)]="formData.haveLicense" />
+      <span class="help" (click)="showHelp('haveLicense')">?</span>
+      <span class="help-text" *ngIf="helpField === 'haveLicense'">Check if you have a valid driver's license.</span>
+    </label>
+    <label *ngIf="showSchoolName">School Name*:
+      <input name="schoolName" type="text" [(ngModel)]="formData.schoolName" required #schoolName="ngModel" />
+      <span class="help" (click)="showHelp('schoolName')">?</span>
+      <span class="help-text" *ngIf="helpField === 'schoolName'">Enter your school name (required for minors).</span>
+      <span class="error" *ngIf="schoolName.invalid && (schoolName.dirty || schoolName.touched)">School name is required</span>
+    </label>
+  </ng-container>
+  <label>JSON Data*:
+    <input name="jsondata" [value]="jsonString(formData.jsondata)" readonly required />
+    <button type="button" (click)="openJsonSubform()" style="margin-left:0.5em;">Fill JSON</button>
+    <span class="help" (click)="showHelp('jsondata')">?</span>
+    <span class="help-text" *ngIf="helpField === 'jsondata'">Click the button to fill JSON data using a subform. This is required.</span>
+    <span class="error" *ngIf="!formData.jsondata || !formData.jsondata['key1']">JSON data is required</span>
+  </label>
+  <button type="submit" [disabled]="configForm.invalid || !formData.uploadFile">Generate Config</button>
+</form>
+<dialog id="configModal" style="border:none;border-radius:10px;box-shadow:0 4px 24px rgba(0,0,0,0.18);padding:2em;min-width:350px;max-width:90vw;">
+  <h3 style="margin-top:0;color:#1976d2;">Generated Config</h3>
+  <pre *ngIf="!editMode" class="json-output">{{ configOutput }}</pre>
+  <textarea *ngIf="editMode" [(ngModel)]="configOutput" rows="8" style="width:100%;font-family:monospace;"></textarea>
+  <div style="display:flex;gap:0.5em;justify-content:flex-end;margin-top:1.5em;">
+    <button *ngIf="!editMode" (click)="editMode = true" class="btn edit">Edit</button>
+    <button *ngIf="editMode" (click)="editMode = false" class="btn done">Done</button>
+    <button (click)="downloadConfig()" [disabled]="editMode" class="btn download">Download</button>
+    <button (click)="closeModal()" class="btn close">Close</button>
+  </div>
+</dialog>
+<dialog id="jsonSubformDialog" style="border:none;border-radius:10px;box-shadow:0 4px 24px rgba(0,0,0,0.18);padding:2em;min-width:350px;max-width:90vw;" *ngIf="showJsonSubform">
+  <h3 style="margin-top:0;color:#1976d2;">Enter JSON Data</h3>
+  <form (ngSubmit)="saveJsonSubform(); $event.preventDefault();">
+    <label>Key 1:
+      <input [(ngModel)]="jsonSubform['key1']" name="key1" required />
+    </label>
+    <label>Key 2:
+      <input [(ngModel)]="jsonSubform['key2']" name="key2" required />
+    </label>
+    <label>Key 3:
+      <input [(ngModel)]="jsonSubform['key3']" name="key3" required />
+    </label>
+    <div style="display:flex;gap:0.5em;justify-content:flex-end;margin-top:1.5em;">
+      <button type="submit" class="btn done">OK</button>
+      <button type="button" (click)="closeJsonSubform()" class="btn close">Cancel</button>
+    </div>
+  </form>
+</dialog>
+<style>
+  .help {
+    display: inline-block;
+    margin-left: 0.3em;
+    color: #1976d2;
+    background: #e3f2fd;
+    border-radius: 50%;
+    width: 1.2em;
+    height: 1.2em;
+    text-align: center;
+    font-size: 1em;
+    font-weight: bold;
+    cursor: pointer;
+    line-height: 1.2em;
+    border: 1px solid #90caf9;
+    transition: background 0.2s;
+  }
+  .help:hover {
+    background: #bbdefb;
+  }
+  .help-text {
+    display: block;
+    color: #1976d2;
+    font-size: 0.95em;
+    margin: 0.2em 0 0.5em 0.5em;
+    background: #e3f2fd;
+    border-radius: 4px;
+    padding: 0.2em 0.7em;
+    max-width: 350px;
+    box-shadow: 0 1px 4px rgba(25,118,210,0.08);
+  }
+</style>

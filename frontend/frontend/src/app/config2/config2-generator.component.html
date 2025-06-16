@@ -1,0 +1,104 @@
+<form #config2Form="ngForm" (ngSubmit)="generateConfig()" novalidate>
+  <label>Service ID*:
+    <input name="serviceId" [(ngModel)]="formData.serviceId" required #serviceId="ngModel" />
+    <span class="help" (click)="showHelp('serviceId')">?</span>
+    <span class="help-text" *ngIf="helpField === 'serviceId'">Unique identifier for the service. Required.</span>
+    <span class="error" *ngIf="serviceId.invalid && (serviceId.dirty || serviceId.touched)">Required</span>
+  </label>
+  <label>Service Name*:
+    <input name="serviceName" [(ngModel)]="formData.serviceName" required #serviceName="ngModel" />
+    <span class="help" (click)="showHelp('serviceName')">?</span>
+    <span class="help-text" *ngIf="helpField === 'serviceName'">Name of the service. Required.</span>
+    <span class="error" *ngIf="serviceName.invalid && (serviceName.dirty || serviceName.touched)">Required</span>
+  </label>
+  <label>Enabled:
+    <input name="enabled" type="checkbox" [(ngModel)]="formData.enabled" />
+    <span class="help" (click)="showHelp('enabled')">?</span>
+    <span class="help-text" *ngIf="helpField === 'enabled'">Enable or disable the service.</span>
+  </label>
+  <label>Endpoint*:
+    <input name="endpoint" [(ngModel)]="formData.endpoint" required #endpoint="ngModel" />
+    <span class="help" (click)="showHelp('endpoint')">?</span>
+    <span class="help-text" *ngIf="helpField === 'endpoint'">Service endpoint URL. Required.</span>
+    <span class="error" *ngIf="endpoint.invalid && (endpoint.dirty || endpoint.touched)">Required</span>
+  </label>
+  <label>Port:
+    <input name="port" type="number" [(ngModel)]="formData.port" />
+    <span class="help" (click)="showHelp('port')">?</span>
+    <span class="help-text" *ngIf="helpField === 'port'">Port number for the service. Default is 8080.</span>
+  </label>
+  <label>Protocol:
+    <select name="protocol" [(ngModel)]="formData.protocol">
+      <option value="https">https</option>
+      <option value="http">http</option>
+      <option value="tcp">tcp</option>
+    </select>
+    <span class="help" (click)="showHelp('protocol')">?</span>
+    <span class="help-text" *ngIf="helpField === 'protocol'">Protocol used by the service.</span>
+  </label>
+  <label>Retries:
+    <input name="retries" type="number" [(ngModel)]="formData.retries" />
+    <span class="help" (click)="showHelp('retries')">?</span>
+    <span class="help-text" *ngIf="helpField === 'retries'">Number of retry attempts. Default is 5.</span>
+  </label>
+  <label>Timeout (ms):
+    <input name="timeoutMs" type="number" [(ngModel)]="formData.timeoutMs" />
+    <span class="help" (click)="showHelp('timeoutMs')">?</span>
+    <span class="help-text" *ngIf="helpField === 'timeoutMs'">Timeout in milliseconds. Default is 5000.</span>
+  </label>
+  <label>Owner:
+    <input name="owner" [(ngModel)]="formData.owner" />
+    <span class="help" (click)="showHelp('owner')">?</span>
+    <span class="help-text" *ngIf="helpField === 'owner'">Owner of the service.</span>
+  </label>
+  <label>Region:
+    <input name="region" [(ngModel)]="formData.region" />
+    <span class="help" (click)="showHelp('region')">?</span>
+    <span class="help-text" *ngIf="helpField === 'region'">Deployment region.</span>
+  </label>
+  <label>Tags:
+    <input name="tags" [(ngModel)]="formData.tags" />
+    <span class="help" (click)="showHelp('tags')">?</span>
+    <span class="help-text" *ngIf="helpField === 'tags'">Comma separated tags for the service.</span>
+  </label>
+  <label>Last Updated (fixed):
+    <input name="lastUpdated" [value]="formData.lastUpdated" readonly />
+    <span class="help" (click)="showHelp('lastUpdated')">?</span>
+    <span class="help-text" *ngIf="helpField === 'lastUpdated'">Date and time of last update. Cannot be changed.</span>
+  </label>
+  <label>Created By (fixed):
+    <input name="createdBy" [value]="formData.createdBy" readonly />
+    <span class="help" (click)="showHelp('createdBy')">?</span>
+    <span class="help-text" *ngIf="helpField === 'createdBy'">Creator of this config. Cannot be changed.</span>
+  </label>
+  <label>Notes:
+    <textarea name="notes" [(ngModel)]="formData.notes"></textarea>
+    <span class="help" (click)="showHelp('notes')">?</span>
+    <span class="help-text" *ngIf="helpField === 'notes'">Additional notes about the service.</span>
+  </label>
+  <label>Config File*:
+    <input name="configFile" type="file" (change)="onFileSelected($event)" required #configFileInput="ngModel" ngModel />
+    <span class="help" (click)="showHelp('configFile')">?</span>
+    <span class="help-text" *ngIf="helpField === 'configFile'">Upload a config file. Required.</span>
+    <span class="error" *ngIf="!formData.configFile && (configFileInput.dirty || configFileInput.touched)">File is required</span>
+  </label>
+  <label>Activation Date*:
+    <input name="activationDate" type="date" [(ngModel)]="formData.activationDate" required #activationDate="ngModel" />
+    <span class="help" (click)="showHelp('activationDate')">?</span>
+    <span class="help-text" *ngIf="helpField === 'activationDate'">Date to activate this config. Required.</span>
+    <span class="error" *ngIf="activationDate.invalid && (activationDate.dirty || activationDate.touched)">Date is required</span>
+  </label>
+  <button type="submit" [disabled]="config2Form.invalid || !formData.configFile">Generate Config</button>
+</form>
+<dialog id="config2Modal" style="border:none;border-radius:10px;box-shadow:0 4px 24px rgba(0,0,0,0.18);padding:2em;min-width:350px;max-width:90vw;">
+  <h3 style="margin-top:0;color:#1976d2;">Generated Config</h3>
+  <pre *ngIf="!editMode" class="json-output">{{ configOutput }}</pre>
+  <textarea *ngIf="editMode" [(ngModel)]="configOutput" rows="8" style="width:100%;font-family:monospace;"></textarea>
+  <div style="display:flex;gap:0.5em;justify-content:flex-end;margin-top:1.5em;">
+    <button *ngIf="!editMode" (click)="editMode = true" class="btn edit">Edit</button>
+    <button *ngIf="editMode" (click)="editMode = false" class="btn done">Done</button>
+    <button (click)="downloadConfig()" [disabled]="editMode" class="btn download">Download</button>
+    <button (click)="closeModal()" class="btn close">Close</button>
+  </div>
+</dialog>
+<style src="../config/config-common.css"></style>
