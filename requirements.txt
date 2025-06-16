@@ -1,0 +1,24 @@
+# Python backend requirements for retina-analysis-tool
+fastapi
+uvicorn
+pydantic
+python-dotenv
+sqlalchemy
+psycopg2-binary
+alembic
+requests
+jinja2
+# For file uploads and static files
+python-multipart
+# For CORS
+fastapi[all]
+# For email notifications
+aiosmtplib
+# For scheduling/cron
+APScheduler
+# For cloud (AWS S3)
+boto3
+# For image processing (if needed)
+Pillow
+# For typing and linting
+mypy
