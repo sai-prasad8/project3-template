@@ -1,0 +1,348 @@
+<form #retinaConfigForm="ngForm" (ngSubmit)="generateConfig()" novalidate>
+  <!-- GENERAL SETTINGS -->
+  <h3>General Settings</h3>
+  <label>Project Name*:
+    <input name="project_name" [(ngModel)]="formData.project_name" required #project_name="ngModel" />
+    <span class="help" (click)="showHelp('project_name')">?</span>
+    <span class="help-text" *ngIf="helpField === 'project_name'">[MANDATORY] Name of the project</span>
+    <span class="error" *ngIf="project_name.invalid && (project_name.dirty || project_name.touched)">Required</span>
+  </label>
+  <label>Version:
+    <input name="version" [(ngModel)]="formData.version" />
+    <span class="help" (click)="showHelp('version')">?</span>
+    <span class="help-text" *ngIf="helpField === 'version'">[OPTIONAL] Project version</span>
+  </label>
+  <label>Author:
+    <input name="author" [(ngModel)]="formData.author" />
+    <span class="help" (click)="showHelp('author')">?</span>
+    <span class="help-text" *ngIf="helpField === 'author'">[OPTIONAL] Author's name</span>
+  </label>
+  <label>Created Date*:
+    <input name="created_date" type="date" [(ngModel)]="formData.created_date" required #created_date="ngModel" />
+    <span class="help" (click)="showHelp('created_date')">?</span>
+    <span class="help-text" *ngIf="helpField === 'created_date'">[MANDATORY] ISO format yyyy-mm-dd</span>
+    <span class="error" *ngIf="created_date.invalid && (created_date.dirty || created_date.touched)">Required</span>
+  </label>
+  <label>Log Level:
+    <select name="log_level" [(ngModel)]="formData.log_level">
+      <option value="INFO">INFO</option>
+      <option value="DEBUG">DEBUG</option>
+      <option value="WARN">WARN</option>
+      <option value="ERROR">ERROR</option>
+    </select>
+    <span class="help" (click)="showHelp('log_level')">?</span>
+    <span class="help-text" *ngIf="helpField === 'log_level'">[DEFAULT=INFO] Log verbosity level</span>
+  </label>
+  <label>Log File:
+    <input name="log_file" [(ngModel)]="formData.log_file" />
+    <span class="help" (click)="showHelp('log_file')">?</span>
+    <span class="help-text" *ngIf="helpField === 'log_file'">[DEFAULT=logs/app.log] Log file path</span>
+  </label>
+  <label>Enable Logging:
+    <input name="enable_logging" type="checkbox" [(ngModel)]="formData.enable_logging" />
+    <span class="help" (click)="showHelp('enable_logging')">?</span>
+    <span class="help-text" *ngIf="helpField === 'enable_logging'">[DEFAULT=true] Enable logging or not</span>
+  </label>
+
+  <!-- DATABASE SETTINGS -->
+  <h3>Database Settings</h3>
+  <label>DB Type*:
+    <select name="db_type" [(ngModel)]="formData.db_type" required #db_type="ngModel">
+      <option value="">Select</option>
+      <option value="postgresql">PostgreSQL</option>
+      <option value="mysql">MySQL</option>
+      <option value="sqlite">SQLite</option>
+    </select>
+    <span class="help" (click)="showHelp('db_type')">?</span>
+    <span class="help-text" *ngIf="helpField === 'db_type'">[MANDATORY] Database type</span>
+    <span class="error" *ngIf="db_type.invalid && (db_type.dirty || db_type.touched)">Required</span>
+  </label>
+  <label>DB Host*:
+    <input name="db_host" [(ngModel)]="formData.db_host" required #db_host="ngModel" />
+    <span class="help" (click)="showHelp('db_host')">?</span>
+    <span class="help-text" *ngIf="helpField === 'db_host'">[MANDATORY] Database host</span>
+    <span class="error" *ngIf="db_host.invalid && (db_host.dirty || db_host.touched)">Required</span>
+  </label>
+  <label>DB Port:
+    <input name="db_port" type="number" [(ngModel)]="formData.db_port" />
+    <span class="help" (click)="showHelp('db_port')">?</span>
+    <span class="help-text" *ngIf="helpField === 'db_port'">[DEFAULT=5432] Port number</span>
+  </label>
+  <label>DB Name*:
+    <input name="db_name" [(ngModel)]="formData.db_name" required #db_name="ngModel" />
+    <span class="help" (click)="showHelp('db_name')">?</span>
+    <span class="help-text" *ngIf="helpField === 'db_name'">[MANDATORY] Name of the database</span>
+    <span class="error" *ngIf="db_name.invalid && (db_name.dirty || db_name.touched)">Required</span>
+  </label>
+  <label>DB User*:
+    <input name="db_user" [(ngModel)]="formData.db_user" required #db_user="ngModel" />
+    <span class="help" (click)="showHelp('db_user')">?</span>
+    <span class="help-text" *ngIf="helpField === 'db_user'">[MANDATORY] Database username</span>
+    <span class="error" *ngIf="db_user.invalid && (db_user.dirty || db_user.touched)">Required</span>
+  </label>
+  <label>DB Password*:
+    <input name="db_password" type="password" [(ngModel)]="formData.db_password" required #db_password="ngModel" />
+    <span class="help" (click)="showHelp('db_password')">?</span>
+    <span class="help-text" *ngIf="helpField === 'db_password'">[MANDATORY] Database password</span>
+    <span class="error" *ngIf="db_password.invalid && (db_password.dirty || db_password.touched)">Required</span>
+  </label>
+  <label>Max DB Connections:
+    <input name="max_db_connections" type="number" [(ngModel)]="formData.max_db_connections" />
+    <span class="help" (click)="showHelp('max_db_connections')">?</span>
+    <span class="help-text" *ngIf="helpField === 'max_db_connections'">[OPTIONAL] Max concurrent connections</span>
+  </label>
+
+  <!-- UI SETTINGS -->
+  <h3>UI Settings</h3>
+  <label>Enable UI*:
+    <input name="enable_ui" type="checkbox" [(ngModel)]="formData.enable_ui" required #enable_ui="ngModel" />
+    <span class="help" (click)="showHelp('enable_ui')">?</span>
+    <span class="help-text" *ngIf="helpField === 'enable_ui'">[MANDATORY] Should UI be enabled</span>
+  </label>
+  <label>UI Theme:
+    <input name="ui_theme" [(ngModel)]="formData.ui_theme" />
+    <span class="help" (click)="showHelp('ui_theme')">?</span>
+    <span class="help-text" *ngIf="helpField === 'ui_theme'">[DEFAULT=dark] UI theme</span>
+  </label>
+  <label>UI Port:
+    <input name="ui_port" type="number" [(ngModel)]="formData.ui_port" />
+    <span class="help" (click)="showHelp('ui_port')">?</span>
+    <span class="help-text" *ngIf="helpField === 'ui_port'">[DEFAULT=4200] Angular UI port</span>
+  </label>
+  <label>Show Debug Toolbar:
+    <input name="show_debug_toolbar" type="checkbox" [(ngModel)]="formData.show_debug_toolbar" />
+    <span class="help" (click)="showHelp('show_debug_toolbar')">?</span>
+    <span class="help-text" *ngIf="helpField === 'show_debug_toolbar'">[OPTIONAL] Enable debug toolbar</span>
+  </label>
+
+  <!-- MODEL SETTINGS -->
+  <h3>Model Settings</h3>
+  <label>Model Type*:
+    <input name="model_type" [(ngModel)]="formData.model_type" required #model_type="ngModel" />
+    <span class="help" (click)="showHelp('model_type')">?</span>
+    <span class="help-text" *ngIf="helpField === 'model_type'">[MANDATORY] Type of deep learning model</span>
+    <span class="error" *ngIf="model_type.invalid && (model_type.dirty || model_type.touched)">Required</span>
+  </label>
+  <label>Model Checkpoint*:
+    <input name="model_checkpoint" [(ngModel)]="formData.model_checkpoint" required #model_checkpoint="ngModel" />
+    <span class="help" (click)="showHelp('model_checkpoint')">?</span>
+    <span class="help-text" *ngIf="helpField === 'model_checkpoint'">[MANDATORY] Path to model file</span>
+    <span class="error" *ngIf="model_checkpoint.invalid && (model_checkpoint.dirty || model_checkpoint.touched)">Required</span>
+  </label>
+  <label>Input Image Size*:
+    <input name="input_image_size" type="number" [(ngModel)]="formData.input_image_size" required #input_image_size="ngModel" />
+    <span class="help" (click)="showHelp('input_image_size')">?</span>
+    <span class="help-text" *ngIf="helpField === 'input_image_size'">[MANDATORY] Input image size</span>
+    <span class="error" *ngIf="input_image_size.invalid && (input_image_size.dirty || input_image_size.touched)">Required</span>
+  </label>
+  <label>Num Classes*:
+    <input name="num_classes" type="number" [(ngModel)]="formData.num_classes" required #num_classes="ngModel" />
+    <span class="help" (click)="showHelp('num_classes')">?</span>
+    <span class="help-text" *ngIf="helpField === 'num_classes'">[MANDATORY] Number of output classes</span>
+    <span class="error" *ngIf="num_classes.invalid && (num_classes.dirty || num_classes.touched)">Required</span>
+  </label>
+  <label>Use GPU:
+    <input name="use_gpu" type="checkbox" [(ngModel)]="formData.use_gpu" />
+    <span class="help" (click)="showHelp('use_gpu')">?</span>
+    <span class="help-text" *ngIf="helpField === 'use_gpu'">[DEFAULT=true] Use GPU for inference</span>
+  </label>
+  <label>GPU Device ID:
+    <input name="gpu_device_id" type="number" [(ngModel)]="formData.gpu_device_id" />
+    <span class="help" (click)="showHelp('gpu_device_id')">?</span>
+    <span class="help-text" *ngIf="helpField === 'gpu_device_id'">[OPTIONAL] CUDA device ID</span>
+  </label>
+
+  <!-- IMAGE PROCESSING -->
+  <h3>Image Processing</h3>
+  <label>Image Format:
+    <input name="image_format" [(ngModel)]="formData.image_format" />
+    <span class="help" (click)="showHelp('image_format')">?</span>
+    <span class="help-text" *ngIf="helpField === 'image_format'">[DEFAULT=jpg] Accepted image format</span>
+  </label>
+  <label>Resize Images:
+    <input name="resize_images" type="checkbox" [(ngModel)]="formData.resize_images" />
+    <span class="help" (click)="showHelp('resize_images')">?</span>
+    <span class="help-text" *ngIf="helpField === 'resize_images'">[DEFAULT=true] Should images be resized</span>
+  </label>
+  <label>Compression Ratio:
+    <input name="compression_ratio" type="number" step="0.01" [(ngModel)]="formData.compression_ratio" />
+    <span class="help" (click)="showHelp('compression_ratio')">?</span>
+    <span class="help-text" *ngIf="helpField === 'compression_ratio'">[OPTIONAL] Image compression ratio</span>
+  </label>
+  <label>Normalize Pixels:
+    <input name="normalize_pixels" type="checkbox" [(ngModel)]="formData.normalize_pixels" />
+    <span class="help" (click)="showHelp('normalize_pixels')">?</span>
+    <span class="help-text" *ngIf="helpField === 'normalize_pixels'">[DEFAULT=true] Normalize pixel values</span>
+  </label>
+
+  <!-- TRAINING SETTINGS -->
+  <h3>Training Settings</h3>
+  <label>Training Enabled*:
+    <input name="training_enabled" type="checkbox" [(ngModel)]="formData.training_enabled" required #training_enabled="ngModel" />
+    <span class="help" (click)="showHelp('training_enabled')">?</span>
+    <span class="help-text" *ngIf="helpField === 'training_enabled'">[MANDATORY] Enable training module</span>
+  </label>
+  <label>Train Batch Size:
+    <input name="train_batch_size" type="number" [(ngModel)]="formData.train_batch_size" />
+    <span class="help" (click)="showHelp('train_batch_size')">?</span>
+    <span class="help-text" *ngIf="helpField === 'train_batch_size'">[DEFAULT=32] Batch size</span>
+  </label>
+  <label>Epochs:
+    <input name="epochs" type="number" [(ngModel)]="formData.epochs" />
+    <span class="help" (click)="showHelp('epochs')">?</span>
+    <span class="help-text" *ngIf="helpField === 'epochs'">[DEFAULT=50] Number of epochs</span>
+  </label>
+  <label>Learning Rate:
+    <input name="learning_rate" type="number" step="0.0001" [(ngModel)]="formData.learning_rate" />
+    <span class="help" (click)="showHelp('learning_rate')">?</span>
+    <span class="help-text" *ngIf="helpField === 'learning_rate'">[DEFAULT=0.001] Initial learning rate</span>
+  </label>
+  <label>Early Stopping:
+    <input name="early_stopping" type="checkbox" [(ngModel)]="formData.early_stopping" />
+    <span class="help" (click)="showHelp('early_stopping')">?</span>
+    <span class="help-text" *ngIf="helpField === 'early_stopping'">[OPTIONAL] Enable early stopping</span>
+  </label>
+  <label>Augmentation Enabled:
+    <input name="augmentation_enabled" type="checkbox" [(ngModel)]="formData.augmentation_enabled" />
+    <span class="help" (click)="showHelp('augmentation_enabled')">?</span>
+    <span class="help-text" *ngIf="helpField === 'augmentation_enabled'">[OPTIONAL] Use data augmentation</span>
+  </label>
+
+  <!-- CLOUD SETTINGS -->
+  <h3>Cloud Settings</h3>
+  <label>Enable Cloud Upload:
+    <input name="enable_cloud_upload" type="checkbox" [(ngModel)]="formData.enable_cloud_upload" />
+    <span class="help" (click)="showHelp('enable_cloud_upload')">?</span>
+    <span class="help-text" *ngIf="helpField === 'enable_cloud_upload'">[OPTIONAL] Enable cloud upload</span>
+  </label>
+  <label *ngIf="formData.enable_cloud_upload">Cloud Provider:
+    <input name="cloud_provider" [(ngModel)]="formData.cloud_provider" />
+    <span class="help" (click)="showHelp('cloud_provider')">?</span>
+    <span class="help-text" *ngIf="helpField === 'cloud_provider'">[DEPENDENT] Required only if enable_cloud_upload=true</span>
+  </label>
+  <label *ngIf="formData.cloud_provider === 'aws' && formData.enable_cloud_upload">S3 Bucket Name:
+    <input name="s3_bucket_name" [(ngModel)]="formData.s3_bucket_name" />
+    <span class="help" (click)="showHelp('s3_bucket_name')">?</span>
+    <span class="help-text" *ngIf="helpField === 's3_bucket_name'">[DEPENDENT] Required only if cloud_provider=aws</span>
+  </label>
+  <label *ngIf="formData.cloud_provider === 'aws' && formData.enable_cloud_upload">AWS Access Key:
+    <input name="aws_access_key" [(ngModel)]="formData.aws_access_key" />
+    <span class="help" (click)="showHelp('aws_access_key')">?</span>
+    <span class="help-text" *ngIf="helpField === 'aws_access_key'">[DEPENDENT] Required only if cloud_provider=aws</span>
+  </label>
+  <label *ngIf="formData.cloud_provider === 'aws' && formData.enable_cloud_upload">AWS Secret Key:
+    <input name="aws_secret_key" [(ngModel)]="formData.aws_secret_key" />
+    <span class="help" (click)="showHelp('aws_secret_key')">?</span>
+    <span class="help-text" *ngIf="helpField === 'aws_secret_key'">[DEPENDENT] Required only if cloud_provider=aws</span>
+  </label>
+
+  <!-- EMAIL NOTIFICATIONS -->
+  <h3>Email Notifications</h3>
+  <label>Enable Email Alerts:
+    <input name="enable_email_alerts" type="checkbox" [(ngModel)]="formData.enable_email_alerts" />
+    <span class="help" (click)="showHelp('enable_email_alerts')">?</span>
+    <span class="help-text" *ngIf="helpField === 'enable_email_alerts'">[OPTIONAL] Enable email alerts</span>
+  </label>
+  <label *ngIf="formData.enable_email_alerts">Email Host:
+    <input name="email_host" [(ngModel)]="formData.email_host" />
+    <span class="help" (click)="showHelp('email_host')">?</span>
+    <span class="help-text" *ngIf="helpField === 'email_host'">[DEPENDENT] Required if enable_email_alerts=true</span>
+  </label>
+  <label *ngIf="formData.enable_email_alerts">Email Port:
+    <input name="email_port" type="number" [(ngModel)]="formData.email_port" />
+    <span class="help" (click)="showHelp('email_port')">?</span>
+    <span class="help-text" *ngIf="helpField === 'email_port'">[DEFAULT=587] Email server port</span>
+  </label>
+  <label *ngIf="formData.enable_email_alerts">Email Use TLS:
+    <input name="email_use_tls" type="checkbox" [(ngModel)]="formData.email_use_tls" />
+    <span class="help" (click)="showHelp('email_use_tls')">?</span>
+    <span class="help-text" *ngIf="helpField === 'email_use_tls'">[DEFAULT=true] Use TLS for email</span>
+  </label>
+  <label *ngIf="formData.enable_email_alerts">Alert Email From:
+    <input name="alert_email_from" [(ngModel)]="formData.alert_email_from" />
+    <span class="help" (click)="showHelp('alert_email_from')">?</span>
+    <span class="help-text" *ngIf="helpField === 'alert_email_from'">[DEPENDENT] Sender email</span>
+  </label>
+  <label *ngIf="formData.enable_email_alerts">Alert Email To:
+    <input name="alert_email_to" [(ngModel)]="formData.alert_email_to" />
+    <span class="help" (click)="showHelp('alert_email_to')">?</span>
+    <span class="help-text" *ngIf="helpField === 'alert_email_to'">[DEPENDENT] Recipient email</span>
+  </label>
+  <label *ngIf="formData.enable_email_alerts">Email Password:
+    <input name="email_password" type="password" [(ngModel)]="formData.email_password" />
+    <span class="help" (click)="showHelp('email_password')">?</span>
+    <span class="help-text" *ngIf="helpField === 'email_password'">[DEPENDENT] SMTP password</span>
+  </label>
+
+  <!-- SCHEDULING & CRON -->
+  <h3>Scheduling & Cron</h3>
+  <label>Enable Scheduler:
+    <input name="enable_scheduler" type="checkbox" [(ngModel)]="formData.enable_scheduler" />
+    <span class="help" (click)="showHelp('enable_scheduler')">?</span>
+    <span class="help-text" *ngIf="helpField === 'enable_scheduler'">[OPTIONAL] Enable AutoSys or cron scheduler</span>
+  </label>
+  <label>Schedule Cron:
+    <input name="schedule_cron" [(ngModel)]="formData.schedule_cron" />
+    <span class="help" (click)="showHelp('schedule_cron')">?</span>
+    <span class="help-text" *ngIf="helpField === 'schedule_cron'">[OPTIONAL] Cron format for nightly job</span>
+  </label>
+  <label>Timezone:
+    <input name="timezone" [(ngModel)]="formData.timezone" />
+    <span class="help" (click)="showHelp('timezone')">?</span>
+    <span class="help-text" *ngIf="helpField === 'timezone'">[DEFAULT=UTC] Timezone for job execution</span>
+  </label>
+
+  <!-- DEPLOYMENT -->
+  <h3>Deployment</h3>
+  <label>Environment*:
+    <input name="environment" [(ngModel)]="formData.environment" required #environment="ngModel" />
+    <span class="help" (click)="showHelp('environment')">?</span>
+    <span class="help-text" *ngIf="helpField === 'environment'">[MANDATORY] Env (dev/test/stage/production)</span>
+    <span class="error" *ngIf="environment.invalid && (environment.dirty || environment.touched)">Required</span>
+  </label>
+  <label>API Base URL*:
+    <input name="api_base_url" [(ngModel)]="formData.api_base_url" required #api_base_url="ngModel" />
+    <span class="help" (click)="showHelp('api_base_url')">?</span>
+    <span class="help-text" *ngIf="helpField === 'api_base_url'">[MANDATORY] REST API base URL</span>
+    <span class="error" *ngIf="api_base_url.invalid && (api_base_url.dirty || api_base_url.touched)">Required</span>
+  </label>
+  <label>JWT Secret Key*:
+    <input name="jwt_secret_key" [(ngModel)]="formData.jwt_secret_key" required #jwt_secret_key="ngModel" />
+    <span class="help" (click)="showHelp('jwt_secret_key')">?</span>
+    <span class="help-text" *ngIf="helpField === 'jwt_secret_key'">[MANDATORY] JWT token encryption key</span>
+    <span class="error" *ngIf="jwt_secret_key.invalid && (jwt_secret_key.dirty || jwt_secret_key.touched)">Required</span>
+  </label>
+  <label>Allowed Hosts*:
+    <input name="allowed_hosts" [(ngModel)]="formData.allowed_hosts" required #allowed_hosts="ngModel" />
+    <span class="help" (click)="showHelp('allowed_hosts')">?</span>
+    <span class="help-text" *ngIf="helpField === 'allowed_hosts'">[MANDATORY] Allowed CORS domains</span>
+    <span class="error" *ngIf="allowed_hosts.invalid && (allowed_hosts.dirty || allowed_hosts.touched)">Required</span>
+  </label>
+
+  <!-- METADATA -->
+  <h3>Metadata</h3>
+  <label>Build ID:
+    <input name="build_id" type="number" [(ngModel)]="formData.build_id" />
+    <span class="help" (click)="showHelp('build_id')">?</span>
+    <span class="help-text" *ngIf="helpField === 'build_id'">[OPTIONAL] Build or deployment ID</span>
+  </label>
+  <label>Last Updated:
+    <input name="last_updated" type="date" [(ngModel)]="formData.last_updated" />
+    <span class="help" (click)="showHelp('last_updated')">?</span>
+    <span class="help-text" *ngIf="helpField === 'last_updated'">[DEFAULT=today] Last config update</span>
+  </label>
+  <label>Notes:
+    <textarea name="notes" [(ngModel)]="formData.notes"></textarea>
+    <span class="help" (click)="showHelp('notes')">?</span>
+    <span class="help-text" *ngIf="helpField === 'notes'">[OPTIONAL] Human-readable notes</span>
+  </label>
+
+  <button type="submit" [disabled]="retinaConfigForm.invalid">Generate Config</button>
+</form>
+<dialog id="retinaConfigModal" style="border:none;border-radius:10px;box-shadow:0 4px 24px rgba(0,0,0,0.18);padding:2em;min-width:350px;max-width:90vw;" *ngIf="configOutput">
+  <h3 style="margin-top:0;color:#1976d2;">Generated Config</h3>
+  <pre class="json-output">{{ configOutput }}</pre>
+  <div style="display:flex;gap:0.5em;justify-content:flex-end;margin-top:1.5em;">
+    <button (click)="configOutput = null" class="btn close">Close</button>
+  </div>
+</dialog>

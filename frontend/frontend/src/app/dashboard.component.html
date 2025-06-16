@@ -17,6 +17,10 @@
       <h2>Config 2</h2>
       <p>Generate and download service config files</p>
     </div>
+    <div class="card" (click)="selectFormat('retina-config')">
+      <h2>Retina Config</h2>
+      <p>Retina analysis tool full config form</p>
+    </div>
     <div class="card" (click)="selectFormat('other')">
       <h2>Other</h2>
       <p>Generate and download other formats</p>
@@ -35,6 +39,7 @@
   gap: 2em;
   justify-content: center;
   margin-top: 2em;
+  flex-wrap: wrap;
 }
 .card {
   background: #f9f9f9;
