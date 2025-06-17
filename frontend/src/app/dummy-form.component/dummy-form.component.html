@@ -1,0 +1,418 @@
+<form #dummyForm="ngForm" (ngSubmit)="generateDummy()" novalidate class="config-form">
+  <label>
+    Field1 (fixed):
+    <input name="field1" [value]="formData.field1" readonly />
+    <span class="help" (click)="showHelp('field1')">?</span>
+    <span class="help-text" *ngIf="helpField === 'field1'">Fixed value, cannot be changed.</span>
+  </label>
+
+  <label>
+    Field2*:
+    <input name="field2" [(ngModel)]="formData.field2" required #field2="ngModel" />
+    <span class="help" (click)="showHelp('field2')">?</span>
+    <span class="help-text" *ngIf="helpField === 'field2'">Mandatory and unique.</span>
+    <span class="error" *ngIf="field2.invalid && (field2.dirty || field2.touched)">Required</span>
+  </label>
+
+  <label>
+    Field3*:
+    <input name="field3" [(ngModel)]="formData.field3" required #field3="ngModel" />
+    <span class="help" (click)="showHelp('field3')">?</span>
+    <span class="help-text" *ngIf="helpField === 'field3'">Mandatory field.</span>
+    <span class="error" *ngIf="field3.invalid && (field3.dirty || field3.touched)">Required</span>
+  </label>
+
+  <label>
+    Field4*:
+    <input name="field4" [(ngModel)]="formData.field4" required #field4="ngModel" />
+    <span class="help" (click)="showHelp('field4')">?</span>
+    <span class="help-text" *ngIf="helpField === 'field4'">Mandatory field.</span>
+    <span class="error" *ngIf="field4.invalid && (field4.dirty || field4.touched)">Required</span>
+  </label>
+
+  <label>
+  Field5* (6 digits):
+  <input name="field5" [(ngModel)]="formData.field5" required pattern="^\d{6}$" minlength="6" maxlength="6" #field5="ngModel" type="text" />
+  <span class="help" (click)="showHelp('field5')">?</span>
+  <span class="help-text" *ngIf="helpField === 'field5'">6 digit number required.</span>
+  <span class="error" *ngIf="field5.invalid && (field5.dirty || field5.touched)">6 digits required</span>
+</label>
+
+<label>
+  Field6* (6 digits):
+  <input name="field6" [(ngModel)]="formData.field6" required pattern="^\d{6}$" minlength="6" maxlength="6" #field6="ngModel" type="text" />
+  <span class="help" (click)="showHelp('field6')">?</span>
+  <span class="help-text" *ngIf="helpField === 'field6'">6 digit number required.</span>
+  <span class="error" *ngIf="field6.invalid && (field6.dirty || field6.touched)">6 digits required</span>
+</label>
+
+  <label>
+    Field7 (fixed):
+    <input name="field7" [value]="formData.field7" readonly />
+    <span class="help" (click)="showHelp('field7')">?</span>
+    <span class="help-text" *ngIf="helpField === 'field7'">Fixed value, cannot be changed.</span>
+  </label>
+
+  <label>
+    Field8*:
+    <input name="field8" [(ngModel)]="formData.field8" required #field8="ngModel" />
+    <span class="help" (click)="showHelp('field8')">?</span>
+    <span class="help-text" *ngIf="helpField === 'field8'">Default is utf-8.</span>
+    <span class="error" *ngIf="field8.invalid && (field8.dirty || field8.touched)">Required</span>
+  </label>
+
+  <label>
+    Field9 File Pattern*:
+    <input name="field9FilePattern" [(ngModel)]="formData.field9FilePattern" required #field9FilePattern="ngModel" />
+    <span class="help" (click)="showHelp('field9FilePattern')">?</span>
+    <span class="help-text" *ngIf="helpField === 'field9FilePattern'">Supported: filename_?????.csv, filename_*.csv, filename.csv</span>
+    <span class="error" *ngIf="field9FilePattern.invalid && (field9FilePattern.dirty || field9FilePattern.touched)">Required</span>
+  </label>
+
+  <label>
+    Field10 File Location:
+    <input name="field10FileLocation" [(ngModel)]="formData.field10FileLocation" [required]="isField10Or11Required()" #field10FileLocation="ngModel" />
+    <span class="help" (click)="showHelp('field10FileLocation')">?</span>
+    <span class="help-text" *ngIf="helpField === 'field10FileLocation'">Mandatory if Field11 is blank.</span>
+    <span class="error" *ngIf="field10FileLocation.invalid && (field10FileLocation.dirty || field10FileLocation.touched) && isField10Or11Required()">Required</span>
+  </label>
+
+  <label>
+    Field11 File1 Location:
+    <input name="field11File1Location" [(ngModel)]="formData.field11File1Location" [required]="isField10Or11Required()" #field11File1Location="ngModel" />
+    <span class="help" (click)="showHelp('field11File1Location')">?</span>
+    <span class="help-text" *ngIf="helpField === 'field11File1Location'">Mandatory if Field10 is blank.</span>
+    <span class="error" *ngIf="field11File1Location.invalid && (field11File1Location.dirty || field11File1Location.touched) && isField10Or11Required()">Required</span>
+  </label>
+
+  <label>
+    Field12 Meta Filepath:
+    <input name="field12MetaFilepath" [(ngModel)]="formData.field12MetaFilepath" [required]="isField12Required()" #field12MetaFilepath="ngModel" />
+    <span class="help" (click)="showHelp('field12MetaFilepath')">?</span>
+    <span class="help-text" *ngIf="helpField === 'field12MetaFilepath'">Mandatory if header is false.</span>
+    <span class="error" *ngIf="field12MetaFilepath.invalid && (field12MetaFilepath.dirty || field12MetaFilepath.touched) && isField12Required()">Required</span>
+  </label>
+
+  <label>
+    Input File Column Delimiter:
+    <input name="inputfilecolumnDelimiter" [(ngModel)]="formData.inputfilecolumnDelimiter" />
+    <span class="help" (click)="showHelp('inputfilecolumnDelimiter')">?</span>
+    <span class="help-text" *ngIf="helpField === 'inputfilecolumnDelimiter'">Blank for positional files.</span>
+  </label>
+
+  <label>
+    Header:
+    <input name="header" [(ngModel)]="formData.header" />
+    <span class="help" (click)="showHelp('header')">?</span>
+  </label>
+
+  <label>
+    Field13:
+    <input name="field13" [(ngModel)]="formData.field13" type="number" #field13="ngModel" />
+    <span class="help" (click)="showHelp('field13')">?</span>
+    <span class="help-text" *ngIf="helpField === 'field13'">Optional numeric value.</span>
+  </label>
+
+  <label>
+    Field14:
+    <input name="field14" [(ngModel)]="formData.field14" type="number" #field14="ngModel" />
+    <span class="help" (click)="showHelp('field14')">?</span>
+    <span class="help-text" *ngIf="helpField === 'field14'">Optional numeric value.</span>
+  </label>
+
+  <label>
+    Field15:
+    <input name="field15" [(ngModel)]="formData.field15" />
+    <span class="help" (click)="showHelp('field15')">?</span>
+  </label>
+
+  <label>
+    Field16:
+    <input name="field16" [(ngModel)]="formData.field16" type="number" #field16="ngModel" />
+    <span class="help" (click)="showHelp('field16')">?</span>
+    <span class="help-text" *ngIf="helpField === 'field16'">Optional numeric value.</span>
+  </label>
+
+  <label>
+    Field17:
+    <input name="field17" [(ngModel)]="formData.field17" type="number" #field17="ngModel" />
+    <span class="help" (click)="showHelp('field17')">?</span>
+    <span class="help-text" *ngIf="helpField === 'field17'">Optional numeric value.</span>
+  </label>
+
+  <label>
+    Validate Metadata:
+    <input name="validatemetadata" [(ngModel)]="formData.validatemetadata" />
+    <span class="help" (click)="showHelp('validatemetadata')">?</span>
+  </label>
+
+  <label>
+    Fail If File Empty:
+    <input name="faillfFi1eEmpty" [(ngModel)]="formData.faillfFi1eEmpty" />
+    <span class="help" (click)="showHelp('faillfFi1eEmpty')">?</span>
+  </label>
+
+  <label>
+    Fail If No Files:
+    <input name="failifnofiles" [(ngModel)]="formData.failifnofiles" />
+    <span class="help" (click)="showHelp('failifnofiles')">?</span>
+  </label>
+
+  <label>
+    Target*:
+    <select name="target" [(ngModel)]="formData.target" required #target="ngModel">
+      <option value="lemon">lemon</option>
+      <option value="apple">apple</option>
+    </select>
+    <span class="help" (click)="showHelp('target')">?</span>
+    <span class="help-text" *ngIf="helpField === 'target'">Mandatory: lemon or apple.</span>
+    <span class="error" *ngIf="target.invalid && (target.dirty || target.touched)">Required</span>
+  </label>
+
+  <label>
+    Field18*:
+    <input name="field18" [(ngModel)]="formData.field18" required #field18="ngModel" />
+    <span class="help" (click)="showHelp('field18')">?</span>
+    <span class="help-text" *ngIf="helpField === 'field18'">Mandatory field.</span>
+    <span class="error" *ngIf="field18.invalid && (field18.dirty || field18.touched)">Required</span>
+  </label>
+
+  <ng-container *ngIf="isField19_20_21_22Required()">
+    <label>
+      Field19*:
+      <input name="field19" [(ngModel)]="formData.field19" required #field19="ngModel" />
+      <span class="help" (click)="showHelp('field19')">?</span>
+      <span class="help-text" *ngIf="helpField === 'field19'">Mandatory if field18=true.</span>
+      <span class="error" *ngIf="field19.invalid && (field19.dirty || field19.touched)">Required</span>
+    </label>
+    <label>
+      Field20*:
+      <input name="field20" [(ngModel)]="formData.field20" required #field20="ngModel" />
+      <span class="help" (click)="showHelp('field20')">?</span>
+      <span class="help-text" *ngIf="helpField === 'field20'">Mandatory if field18=true.</span>
+      <span class="error" *ngIf="field20.invalid && (field20.dirty || field20.touched)">Required</span>
+    </label>
+    <label>
+      Field21*:
+      <input name="field21" [(ngModel)]="formData.field21" required #field21="ngModel" />
+      <span class="help" (click)="showHelp('field21')">?</span>
+      <span class="help-text" *ngIf="helpField === 'field21'">Mandatory if field18=true.</span>
+      <span class="error" *ngIf="field21.invalid && (field21.dirty || field21.touched)">Required</span>
+    </label>
+    <label *ngIf="isField22Required()">
+      Field22*:
+      <input name="field22" [(ngModel)]="formData.field22" required #field22="ngModel" />
+      <span class="help" (click)="showHelp('field22')">?</span>
+      <span class="help-text" *ngIf="helpField === 'field22'">Mandatory if field21=false.</span>
+      <span class="error" *ngIf="field22.invalid && (field22.dirty || field22.touched)">Required</span>
+    </label>
+  </ng-container>
+
+  <ng-container *ngIf="isLemon()">
+    <label>
+      Field23*:
+      <input name="field23" [(ngModel)]="formData.field23" required #field23="ngModel" />
+      <span class="help" (click)="showHelp('field23')">?</span>
+      <span class="help-text" *ngIf="helpField === 'field23'">Mandatory if target is lemon.</span>
+      <span class="error" *ngIf="field23.invalid && (field23.dirty || field23.touched)">Required</span>
+    </label>
+    <label>
+      Field24*:
+      <input name="field24" [(ngModel)]="formData.field24" required #field24="ngModel" />
+      <span class="help" (click)="showHelp('field24')">?</span>
+      <span class="help-text" *ngIf="helpField === 'field24'">Mandatory if target is lemon.</span>
+      <span class="error" *ngIf="field24.invalid && (field24.dirty || field24.touched)">Required</span>
+    </label>
+    <label>
+      Field25dir*:
+      <input name="field25dir" [(ngModel)]="formData.field25dir" required #field25dir="ngModel" />
+      <span class="help" (click)="showHelp('field25dir')">?</span>
+      <span class="help-text" *ngIf="helpField === 'field25dir'">Mandatory if target is lemon.</span>
+      <span class="error" *ngIf="field25dir.invalid && (field25dir.dirty || field25dir.touched)">Required</span>
+    </label>
+  </ng-container>
+
+  <ng-container *ngIf="isApple()">
+    <label>
+      Field26*:
+      <input name="field26" [(ngModel)]="formData.field26" required #field26="ngModel" />
+      <span class="help" (click)="showHelp('field26')">?</span>
+      <span class="help-text" *ngIf="helpField === 'field26'">Mandatory if target is apple.</span>
+      <span class="error" *ngIf="field26.invalid && (field26.dirty || field26.touched)">Required</span>
+    </label>
+    <label>
+      Field27*:
+      <input name="field27" [(ngModel)]="formData.field27" required #field27="ngModel" />
+      <span class="help" (click)="showHelp('field27')">?</span>
+      <span class="help-text" *ngIf="helpField === 'field27'">Mandatory if target is apple.</span>
+      <span class="error" *ngIf="field27.invalid && (field27.dirty || field27.touched)">Required</span>
+    </label>
+  </ng-container>
+
+  <label>
+    Field28:
+    <input name="field28" [(ngModel)]="formData.field28" />
+    <span class="help" (click)="showHelp('field28')">?</span>
+  </label>
+
+  <label>
+    Field29:
+    <input name="field29" [(ngModel)]="formData.field29" />
+    <span class="help" (click)="showHelp('field29')">?</span>
+  </label>
+
+  <label>
+    Field30:
+    <input name="field30" [(ngModel)]="formData.field30" />
+    <span class="help" (click)="showHelp('field30')">?</span>
+  </label>
+
+  <label>
+    Field31:
+    <input name="field31" [(ngModel)]="formData.field31" />
+    <span class="help" (click)="showHelp('field31')">?</span>
+  </label>
+
+  <label>
+    Field32:
+    <input name="field32" [(ngModel)]="formData.field32" />
+    <span class="help" (click)="showHelp('field32')">?</span>
+  </label>
+
+  <label>
+    Field33:
+    <input name="field33" [(ngModel)]="formData.field33" />
+    <span class="help" (click)="showHelp('field33')">?</span>
+  </label>
+
+  <label>
+    Field34 (MB):
+    <input name="field34" [(ngModel)]="formData.field34" type="number" #field34="ngModel" />
+    <span class="help" (click)="showHelp('field34')">?</span>
+    <span class="help-text" *ngIf="helpField === 'field34'">Optional, default 256MB.</span>
+  </label>
+
+  <label>
+    Field35:
+    <input name="field35" [(ngModel)]="formData.field35" />
+    <span class="help" (click)="showHelp('field35')">?</span>
+  </label>
+
+  <label>
+    Field36*:
+    <input name="field36" [(ngModel)]="formData.field36" required #field36="ngModel" />
+    <span class="help" (click)="showHelp('field36')">?</span>
+    <span class="help-text" *ngIf="helpField === 'field36'">Mandatory, default false.</span>
+    <span class="error" *ngIf="field36.invalid && (field36.dirty || field36.touched)">Required</span>
+  </label>
+
+  <label>
+    Get Success Mail:
+    <input name="getSuccessMail" [(ngModel)]="formData.getSuccessMail" />
+    <span class="help" (click)="showHelp('getSuccessMail')">?</span>
+  </label>
+
+  <label *ngIf="isSuccessMailRequired()">
+    Ingestion Success Email*:
+    <input name="ingestionSuccessEmail" [(ngModel)]="formData.ingestionSuccessEmail" required #ingestionSuccessEmail="ngModel" />
+    <span class="help" (click)="showHelp('ingestionSuccessEmail')">?</span>
+    <span class="help-text" *ngIf="helpField === 'ingestionSuccessEmail'">Mandatory if getSuccessMail=true.</span>
+    <span class="error" *ngIf="ingestionSuccessEmail.invalid && (ingestionSuccessEmail.dirty || ingestionSuccessEmail.touched)">Required</span>
+  </label>
+
+  <label>
+    Ingestion Failure Email*:
+    <input name="ingestionFailureEmail" [(ngModel)]="formData.ingestionFailureEmail" required #ingestionFailureEmail="ngModel" />
+    <span class="help" (click)="showHelp('ingestionFailureEmail')">?</span>
+    <span class="error" *ngIf="ingestionFailureEmail.invalid && (ingestionFailureEmail.dirty || ingestionFailureEmail.touched)">Required</span>
+  </label>
+
+  <label>
+    From Addr*:
+    <input name="fromAddr" [(ngModel)]="formData.fromAddr" required #fromAddr="ngModel" />
+    <span class="help" (click)="showHelp('fromAddr')">?</span>
+    <span class="error" *ngIf="fromAddr.invalid && (fromAddr.dirty || fromAddr.touched)">Required</span>
+  </label>
+
+  <label>
+    Field34 Addr*:
+    <input name="field34Addr" [(ngModel)]="formData.field34Addr" required #field34Addr="ngModel" />
+    <span class="help" (click)="showHelp('field34Addr')">?</span>
+    <span class="error" *ngIf="field34Addr.invalid && (field34Addr.dirty || field34Addr.touched)">Required</span>
+  </label>
+
+  <label>
+    Field35 Addr*:
+    <input name="field35Addr" [(ngModel)]="formData.field35Addr" required #field35Addr="ngModel" />
+    <span class="help" (click)="showHelp('field35Addr')">?</span>
+    <span class="error" *ngIf="field35Addr.invalid && (field35Addr.dirty || field35Addr.touched)">Required</span>
+  </label>
+
+  <div>
+    <label>Field36 Mapping Keys:</label>
+    <div *ngFor="let item of formData.field36MappingKeys; let i = index" class="mapping-row">
+      <input [(ngModel)]="item.key" name="field36MappingKey{{i}}" placeholder="Key" required />
+      <input [(ngModel)]="item.value" name="field36MappingValue{{i}}" placeholder="Value" required />
+      <button type="button" (click)="removeMappingKey('field36MappingKeys', i)" class="btn close">Remove</button>
+    </div>
+    <button type="button" (click)="addMappingKey('field36MappingKeys')" class="btn done">Add Key</button>
+  </div>
+
+  <label>
+    Field37:
+    <input name="field37" [(ngModel)]="formData.field37" />
+    <span class="help" (click)="showHelp('field37')">?</span>
+  </label>
+
+  <div>
+    <label>Field38 Map:</label>
+    <div *ngFor="let item of formData.field38Map; let i = index" class="mapping-row">
+      <input [(ngModel)]="item.key" name="field38MapKey{{i}}" placeholder="Key" required />
+      <input [(ngModel)]="item.value" name="field38MapValue{{i}}" placeholder="Value" required />
+      <button type="button" (click)="removeField38Map(i)" class="btn close">Remove</button>
+    </div>
+    <button type="button" (click)="addField38Map()" class="btn done">Add Map Entry</button>
+  </div>
+
+  <label>
+    Field39:
+    <input name="field39" [(ngModel)]="formData.field39" />
+    <span class="help" (click)="showHelp('field39')">?</span>
+  </label>
+
+  <label>
+    Field40:
+    <input name="field40" [(ngModel)]="formData.field40" />
+    <span class="help" (click)="showHelp('field40')">?</span>
+  </label>
+
+  <label>
+    Field41:
+    <input name="field41" [(ngModel)]="formData.field41" />
+    <span class="help" (click)="showHelp('field41')">?</span>
+  </label>
+
+  <div>
+    <label>Field42 Mapping Keys:</label>
+    <div *ngFor="let item of formData.field42MappingKeys; let i = index" class="mapping-row">
+      <input [(ngModel)]="item.key" name="field42MappingKey{{i}}" placeholder="Key" required />
+      <input [(ngModel)]="item.value" name="field42MappingValue{{i}}" placeholder="Value" required />
+      <button type="button" (click)="removeMappingKey('field42MappingKeys', i)" class="btn close">Remove</button>
+    </div>
+    <button type="button" (click)="addMappingKey('field42MappingKeys')" class="btn done">Add Key</button>
+  </div>
+
+  <button type="submit" [disabled]="dummyForm.invalid" class="btn done">Generate Dummy</button>
+</form>
+
+<dialog id="dummyModal" class="config-dialog">
+  <h3>Generated Dummy JSON</h3>
+  <pre *ngIf="!editMode" class="json-output">{{ output }}</pre>
+  <textarea *ngIf="editMode" [(ngModel)]="output" rows="8" style="width:100%;font-family:monospace;"></textarea>
+  <div class="dialog-actions">
+    <button *ngIf="!editMode" (click)="editMode = true" class="btn edit">Edit</button>
+    <button *ngIf="editMode" (click)="editMode = false" class="btn done">Done</button>
+    <button (click)="downloadDummy()" [disabled]="editMode" class="btn download">Download</button>
+    <button (click)="closeModal()" class="btn close">Close</button>
+  </div>
+</dialog>

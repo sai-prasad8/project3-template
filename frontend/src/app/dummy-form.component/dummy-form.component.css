@@ -1,0 +1,65 @@
+form {
+  max-width: 600px;
+  margin: 2em auto;
+  padding: 2em;
+  background: #f9f9f9;
+  border-radius: 8px;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.07);
+}
+label {
+  display: block;
+  margin: 1em 0 0.5em 0;
+  font-weight: 500;
+}
+input, select, textarea {
+  width: 100%;
+  padding: 0.5em;
+  margin-top: 0.2em;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  font-size: 1em;
+  box-sizing: border-box;
+  transition: border 0.2s;
+}
+input:invalid.ng-touched, textarea:invalid.ng-touched {
+  border-color: #e57373;
+}
+button[type="submit"] {
+  background: #1976d2;
+  color: #fff;
+  border: none;
+  padding: 0.7em 1.5em;
+  border-radius: 4px;
+  font-size: 1em;
+  cursor: pointer;
+  margin-top: 1em;
+  transition: background 0.2s;
+}
+button[type="submit"]:disabled {
+  background: #b0bec5;
+  cursor: not-allowed;
+}
+.btn {
+  background: #1976d2;
+  color: #fff;
+  border: none;
+  padding: 0.5em 1.2em;
+  border-radius: 4px;
+  font-size: 1em;
+  cursor: pointer;
+  transition: background 0.2s;
+  font-weight: 500;
+  box-shadow: 0 1px 4px rgba(25,118,210,0.08);
+}
+.btn.edit { background: #43a047; }
+.btn.done { background: #0288d1; }
+.btn.download { background: #fbc02d; color: #222; }
+.btn.close { background: #e53935; }
+.btn:disabled { background: #b0bec5; color: #fff; cursor: not-allowed; }
+dialog[open] {
+  animation: fadeIn 0.2s;
+}
+@keyframes fadeIn {
+  from { opacity: 0; transform: scale(0.98); }
+  to { opacity: 1; transform: scale(1); }
+}
