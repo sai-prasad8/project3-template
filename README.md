@@ -1,7 +1,7 @@
 # Python & Angular Workspace
 
 ## Python
-- Activate the virtual environment: `python3 -m venv venv && source .venv/bin/activate`
+- Activate the virtual environment: `python3 -m venv venv && source venv/bin/activate`
 - Install dependencies: `pip install -r requirements.txt` (create this file as needed)
 
 ## Angular
